@@ -1,0 +1,127 @@
+#:kivy 1.0
+#: import RiseInTransition kivy.uix.screenmanager.RiseInTransition
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<ElementCard@MDCard>:
+    radius: '10dp'
+    spacing: '10dp'
+    padding: '10dp'
+    image: ''
+    text: ''
+    sub_text: ''
+    orientation: 'vertical'
+    ripple_behavior: True
+    on_release:
+        app.root.transition = RiseInTransition()
+    Image:
+        source: root.image
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDLabel:
+            text: root.text
+            halign: 'center'
+        MDLabel:
+            text: root.sub_text
+            halign: 'center'
+
+<CustomizeScreen@MDBoxLayout>:
+    orientation: 'vertical'
+    text: ''
+    padding: 100
+    MDLabel:
+        text: root.text
+        halign: 'center'
+        pos_hint: {'center_x': .5}
+    MDFillRoundFlatButton:
+        text: 'REGRESAR'
+        pos_hint: {'center_x':0.5}
+        on_release:
+            app.root.current = 'screen_principal'
+            app.root.transition = SlideTransition(direction= 'left' )
+
+<ui>:
+    # Screen principal
+    MDScreen:
+        name: 'screen_principal'
+        md_bg_color: 0,.5,.5,1
+        # Creamos un layout vertical
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDBoxLayout:
+                size_hint: 1, 0.1
+                orientation: 'horizontal'
+                padding: '10dp'
+                MDCard:
+                    radius: '10dp'
+                    padding: '20dp'
+                    line_color: 1,0,1,1
+
+                    MDLabel:
+                        text: 'APP NIKK ENTRENO'
+                        halign: 'center'
+                        pos_hint: {'center_y': 0.5}
+
+
+            MDGridLayout:
+                cols: 2
+                size_hint: 1, .6
+                padding: ['10dp', '10dp', '10dp', '10dp']
+                spacing: '10dp'
+
+                ElementCard:
+                    text: 'ENTRENOS'
+                    image: 'images/pesa.png'
+                    on_release:
+                        root.current = 'entrenos'
+
+                ElementCard:
+                    text: 'CREAR ENTRENO'
+                    image: 'images/crear.png'
+                    on_release:
+                        root.current = 'crear'
+
+                ElementCard:
+                    text: 'MODIFICAR ENTRENOS'
+                    image: 'images/modificar.png'
+                    on_release:
+                        root.current = 'modificar'
+
+                ElementCard:
+                    text: 'BORRAR ENTRENOS'
+                    image: 'images/borrar.png'
+                    on_release:
+                        root.current = 'borrar'
+    MDScreen:
+        name: 'entrenos'
+        CustomizeScreen:
+            text: 'entrenos'
+
+    MDScreen:
+        name: 'crear'
+        CustomizeScreen:
+            MDBoxLayout:
+                size_hint: 1, 0.1
+                orientation: 'vertical'
+                padding: '10dp'
+                MDTextField:
+                    hint_text: "Nombre del entreno"
+                    text: ""
+                    required: True
+                    helper_text_mode: "on_error"
+                    helper_text: "Este campo no puede estar vacio"
+                MDTextField:
+                    hint_text: "Primer ejercicio"
+                    text: ""
+                    required: True
+                    helper_text_mode: "on_error"
+                    helper_text: "Este campo no puede estar vacio"
+
+    MDScreen:
+        name: 'modificar'
+        CustomizeScreen:
+            text: 'modificar'
+
+    MDScreen:
+        name: 'borrar'
+        CustomizeScreen:
+            text: 'borrar'
